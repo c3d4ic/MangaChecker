@@ -13,8 +13,37 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+
+  <ion-list *ngFor="let manga of mangas">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            {{manga.title}}
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            {{manga.title}}
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          La
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    </ion-list>
+
+  <!-- <ion-list *ngIf="mangas">
+    <ion-item >
+      <ion-label>{{ manga.title }}</ion-label>
+      <ion-list *ngIf="manga.release">
+        <ion-label *ngFor="let release of manga.release">{{release.chapter}}</ion-label>
+      </ion-list>
+    </ion-item>
+   </ion-list> -->
+
+
 </ion-content>

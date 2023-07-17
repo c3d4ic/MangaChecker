@@ -3,8 +3,20 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebaseConfig: {
+    apiKey: 'AIzaSyAYVSkC1RfUjE8beR5soS19ZcmlIjy2TF4',
+    authDomain: 'mangareminder-d3ade.firebaseapp.com',
+    databaseURL:
+      'https://mangareminder-d3ade-default-rtdb.europe-west1.firebasedatabase.app',
+    projectId: 'mangareminder-d3ade',
+    storageBucket: 'mangareminder-d3ade.appspot.com',
+    messagingSenderId: '353703660144',
+    appId: '1:353703660144:web:004f7548bb9cb6d77c02b5',
+  }
 };
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file

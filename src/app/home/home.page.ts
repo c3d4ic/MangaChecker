@@ -1,12 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Manga } from '../enum';
+import { FirebaseService } from '../service/firebase.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  mangas: Manga[] = [];
 
-  constructor() {}
+  constructor(private firebaseService: FirebaseService) { }
+
+
+
+   ngOnInit() {
+    this.firebaseService.getData().then(data => {
+      this.mangas = data;
+    });
+  }
+
+  
 
 }
