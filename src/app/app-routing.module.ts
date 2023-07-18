@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'reader/:idManga/:idRelease',
+    loadChildren: () => import('./reader/reader.module').then( m => m.ReaderPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,10 @@
+
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="release && release.pages">
+    <div *ngFor="let page of release.pages">
+      <img [src]="page">
+    </div>
+  </div>
+  
+</ion-content>

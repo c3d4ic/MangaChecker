@@ -8,4 +8,5 @@ export interface Manga {
     chapter: String;
     read: Boolean;
     url: String;
+    pages: String[];
   }

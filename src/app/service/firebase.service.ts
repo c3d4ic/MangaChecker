@@ -4,6 +4,7 @@ import { getApp } from '@angular/fire/app';
 import { Firestore } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 import { Manga, Release } from '../enum';
+import { MangaService } from './manga/manga.service';
 
 
 @Injectable({
@@ -15,7 +16,7 @@ export class FirebaseService {
   protected ref: any
   firestore: Firestore = inject(Firestore);
 
-  constructor() {
+  constructor(private mangaService: MangaService) {
     const app = getApp();
     this.database = getDatabase(app);
         this.ref = ref(this.database, 'data/manga');
@@ -33,7 +34,9 @@ export class FirebaseService {
             console.error(error)
             return []
         }).then(mangas => {
-            return this.filterByRead(mangas);
+            const data = this.filterByRead(mangas);
+            this.mangaService.setMangaList(data);
+            return data;
         });
 
     }
@@ -45,10 +48,13 @@ export class FirebaseService {
         let isNew: Boolean = false;
 
         listManga.forEach((manga: Manga) => {
-            manga.release.forEach((release: Release) => {
-                isRead =  release.read ? true : false;
-               if(!isRead) isNew = true; return;
-            });
+            if(manga.release) {
+                manga.release.forEach((release: Release) => {
+                    isRead =  release.read ? true : false;
+                   if(!isRead) isNew = true; return;
+                });
+            }
+            
             if(isNew) {
                 listMangaFiltered.push(manga);
             }
@@ -57,5 +63,9 @@ export class FirebaseService {
         console.log("listMangaFiltered : ", listMangaFiltered);
         return listMangaFiltered
 
+    }
+
+    updateMangaIsRead() {
+        
     }
 }
