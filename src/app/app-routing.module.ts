@@ -12,7 +12,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'reader/:idManga/:idRelease',
+    path: 'reader/:mangaTitle/:mangaChapter',
     loadChildren: () => import('./reader/reader.module').then( m => m.ReaderPageModule)
   },
 ];

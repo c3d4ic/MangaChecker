@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Manga } from '../enum';
-import { FirebaseService } from '../service/firebase.service';
 import { Router } from '@angular/router';
+import { MangaService } from '../service/manga/manga.service';
 
 @Component({
   selector: 'app-home',
@@ -11,20 +11,11 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
   mangas: Manga[] = [];
 
-  constructor(private firebaseService: FirebaseService, private router: Router) { }
+  constructor(public mangaService: MangaService, private router: Router) { }
 
-
-
-   ngOnInit() {
-    this.firebaseService.getData().then(data => {
-      this.mangas = data;
-    });
+  ngOnInit() {
   }
-
-  onChapter(idManga: Number, idRelease: Number) {
+  onChapter(idManga: String, idRelease: String) {
     this.router.navigateByUrl(`/reader/${idManga}/${idRelease}`)
   }
-
-  
-
 }

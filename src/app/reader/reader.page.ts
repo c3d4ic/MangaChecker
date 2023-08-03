@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MangaService } from '../service/manga/manga.service';
 import { Release } from '../enum';
+import { NavController } from '@ionic/angular';
+import { FirebaseService } from '../service/firebase.service';
 
 @Component({
   selector: 'app-reader',
@@ -16,26 +18,32 @@ export class ReaderPage implements OnInit {
     "https://s1.cdn-manga.com/files/WP-manga/data/1818/ab2aad44ebb7c450a00d486a4a0150f8/3-o.jpg",
     "https://s1.cdn-manga.com/files/WP-manga/data/1818/ab2aad44ebb7c450a00d486a4a0150f8/4-o.jpg",
   ]
-  constructor(private route: ActivatedRoute, private mangaService: MangaService) { }
+  constructor(private route: ActivatedRoute, private mangaService: MangaService, private firebaseService: FirebaseService, private router: Router) { }
 
   release: any;
-  idManga: Number = 0
-  idRelease: Number = 0
+  mangaTitle: String = '';
+  mangaChapter: String = '';
 
   ngOnInit() {
 
     this.route.params.subscribe((params: any) => {
 
-      this.idManga = params['idManga'] ? params['idManga'] : 0;
-      this.idRelease = params['idRelease'] ? params['idRelease'] : 0;
-      
-     this.release = this.mangaService.getReleaseById(params['idManga'], params['idRelease']);
-
-     console.log("params['idManga'] : ",this.release )
-
+      this.mangaTitle = params['mangaTitle'] ? params['mangaTitle'] : 0;
+      this.mangaChapter = params['mangaChapter'] ? params['mangaChapter'] : 0;
+     this.release = this.mangaService.getReleaseById(params['mangaTitle'], params['mangaChapter']);
+     this.updateChapterRead();
     });
 
+    
+  }
 
+  updateChapterRead() {
+    const mangaList = this.mangaService.updateChapterRead(this.mangaTitle, this.mangaChapter);
+    this.firebaseService.postData(mangaList);
+  }
+
+  back() {
+    this.router.navigateByUrl('/home');
   }
 
 }

@@ -1,29 +1,30 @@
 import { Injectable } from '@angular/core';
-import { getDatabase, ref, get } from '@angular/fire/database';
+import { getDatabase, ref, get, set } from '@angular/fire/database';
 import { getApp } from '@angular/fire/app';
 import { Firestore } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 import { Manga, Release } from '../enum';
 import { MangaService } from './manga/manga.service';
+import { Preferences } from '@capacitor/preferences';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class FirebaseService {
 
-  protected database: any
-  protected ref: any
-  firestore: Firestore = inject(Firestore);
+    protected database: any
+    protected ref: any
+    firestore: Firestore = inject(Firestore);
 
-  constructor(private mangaService: MangaService) {
-    const app = getApp();
-    this.database = getDatabase(app);
+    constructor(private mangaService: MangaService) {
+        const app = getApp();
+        this.database = getDatabase(app);
         this.ref = ref(this.database, 'data/manga');
-  }
+    }
 
-  getData() {
-         return get(this.ref).then((snapshot) => {
+    getData() {
+        return get(this.ref).then((snapshot) => {
             if (snapshot.exists()) {
                 return snapshot.val()
             } else {
@@ -33,39 +34,27 @@ export class FirebaseService {
         }).catch((error) => {
             console.error(error)
             return []
-        }).then(mangas => {
-            const data = this.filterByRead(mangas);
-            this.mangaService.setMangaList(data);
-            return data;
+        }).then(async mangas => {
+            console.log("MANGAS GET : ", mangas)
+            await Preferences.set({
+                key: 'mangas',
+                value: JSON.stringify(mangas)
+            });
+            this.mangaService.setMangaList(mangas);
+            return mangas;
         });
 
     }
 
-    filterByRead(listManga: Manga[]): Manga[] {
-        console.log("listManga : ", listManga);
-        let listMangaFiltered : Manga[] = [];
-        let isRead: Boolean = false;
-        let isNew: Boolean = false;
-
-        listManga.forEach((manga: Manga) => {
-            if(manga.release) {
-                manga.release.forEach((release: Release) => {
-                    isRead =  release.read ? true : false;
-                   if(!isRead) isNew = true; return;
-                });
-            }
-            
-            if(isNew) {
-                listMangaFiltered.push(manga);
-            }
-            isNew = false;
-        });
-        console.log("listMangaFiltered : ", listMangaFiltered);
-        return listMangaFiltered
-
+    postData(mangas: Array<Manga>) {
+        set(this.ref, mangas).then((result => {
+            console.log("Data is up to date")
+        })).catch((error) => {
+            console.error("Failed with error: " + error)
+        })
     }
 
-    updateMangaIsRead() {
-        
+    updateMangaIsRead(mangas: Array<Manga>) {
+        this.postData(mangas);
     }
 }

@@ -14,14 +14,14 @@
   </ion-header>
 
 
-  <ion-list *ngFor="let manga of mangas; let mangaIndex = index ">
-    <ion-item>
+  <ion-list *ngFor="let manga of mangaService.mangaListNews; let mangaIndex = index ">
+    <ion-item *ngIf="manga.release">
       <ion-avatar slot="start">
         <img [src]="manga.image">
       </ion-avatar>
       <ion-label>{{manga.title}}
-        <div class="list-chapter" *ngFor="let release of manga.release.reverse(); let releaseIndex = index">
-          <div class="chapter-item" (click)="onChapter(mangaIndex, releaseIndex)">
+        <div class="list-chapter" *ngFor="let release of manga.release.reverse()">
+          <div class="chapter-item" (click)="onChapter(manga.title, release.chapter)">
             <span class="chapter">{{ release.chapter }}</span>
           </div>
         </div>

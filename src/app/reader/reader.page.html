@@ -1,6 +1,11 @@
 
 
 <ion-content [fullscreen]="true">
+  
+    <ion-button class="back-button" (click)="back()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-button>
+  
   <div *ngIf="release && release.pages">
     <div *ngFor="let page of release.pages">
       <img [src]="page">
