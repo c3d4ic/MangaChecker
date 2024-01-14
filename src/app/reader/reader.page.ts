@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MangaService } from '../service/manga/manga.service';
 import { Release } from '../enum';
-import { NavController } from '@ionic/angular';
+import { IonContent, NavController } from '@ionic/angular';
 import { FirebaseService } from '../service/firebase.service';
 
 @Component({
@@ -12,13 +12,10 @@ import { FirebaseService } from '../service/firebase.service';
 })
 export class ReaderPage implements OnInit {
 
-  pages = [
-    "https://s1.cdn-manga.com/files/WP-manga/data/1818/ab2aad44ebb7c450a00d486a4a0150f8/1-o.jpg",
-    "https://s1.cdn-manga.com/files/WP-manga/data/1818/ab2aad44ebb7c450a00d486a4a0150f8/2-o.jpg",
-    "https://s1.cdn-manga.com/files/WP-manga/data/1818/ab2aad44ebb7c450a00d486a4a0150f8/3-o.jpg",
-    "https://s1.cdn-manga.com/files/WP-manga/data/1818/ab2aad44ebb7c450a00d486a4a0150f8/4-o.jpg",
-  ]
+
   constructor(private route: ActivatedRoute, private mangaService: MangaService, private firebaseService: FirebaseService, private router: Router) { }
+
+  @ViewChild(IonContent, {read: IonContent}) content: IonContent;
 
   release: any;
   mangaTitle: String = '';
@@ -38,12 +35,16 @@ export class ReaderPage implements OnInit {
   }
 
   updateChapterRead() {
-    const mangaList = this.mangaService.updateChapterRead(this.mangaTitle, this.mangaChapter);
-    this.firebaseService.postData(mangaList);
+    // const mangaList = this.mangaService.updateChapterRead(this.mangaTitle, this.mangaChapter);
+    // this.firebaseService.postData(mangaList);
   }
 
   back() {
     this.router.navigateByUrl('/home');
+  }
+
+  goToTop() {
+    this.content.scrollToTop(1000);
   }
 
 }

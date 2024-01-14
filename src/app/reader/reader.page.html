@@ -1,15 +1,25 @@
 
+<ion-header collapse="condense">
+  <ion-toolbar>
+    <ion-title size="large">Manga Checker</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content #content [fullscreen]="true" [scrollEvents]="true">
   
     <ion-button class="back-button" (click)="back()">
       <ion-icon name="arrow-back-outline"></ion-icon>
     </ion-button>
   
+    <div id="top"></div>
   <div *ngIf="release && release.pages">
-    <div *ngFor="let page of release.pages">
-      <img [src]="page">
+    <div *ngFor="let page of release.pages" class="page-container">
+      <img [src]="page" class="page">
     </div>
   </div>
+
+  <ion-button class="top-button" (click)="goToTop()">
+    <ion-icon name="arrow-up-outline"></ion-icon>
+  </ion-button>
   
 </ion-content>

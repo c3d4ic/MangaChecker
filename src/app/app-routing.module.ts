@@ -15,6 +15,14 @@ const routes: Routes = [
     path: 'reader/:mangaTitle/:mangaChapter',
     loadChildren: () => import('./reader/reader.module').then( m => m.ReaderPageModule)
   },
+  {
+    path: 'manga-detail',
+    loadChildren: () => import('./manga-detail/manga-detail.module').then( m => m.MangaDetailPageModule)
+  },
+  {
+    path: 'manga-list',
+    loadChildren: () => import('./manga-list/manga-list.module').then( m => m.MangaListPageModule)
+  },
 ];
 
 @NgModule({

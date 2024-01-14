@@ -36,26 +36,35 @@ export class MangaService {
   }
 
   filterByRead(listManga: Manga[]): Manga[] {
-    let listMangaFiltered: Manga[] = [];
-    let isRead: Boolean = false;
-    let isNew: Boolean = false;
 
-    listManga.forEach((manga: Manga) => {
-        if (manga.release) {
-            manga.release.forEach((release: Release) => {
-                isRead = release.read ? true : false;
-                if (!isRead) isNew = true; return;
-            });
+    var unreadMangas: Array<Manga> = [];
+    var unreadManga: Manga;
+    for (let indexManga = 0; indexManga <= listManga.length - 1; indexManga++) {
+      var unreadReleases: Array<Release> = [];
+      unreadManga = {
+        image: listManga[indexManga].image,
+        release: [],
+        title: listManga[indexManga].title,
+      };
+      if (listManga[indexManga].release) {
+        for (let indexRelease = 0; indexRelease <= listManga[indexManga].release.length - 1; indexRelease++) {
+          if (!listManga[indexManga].release[indexRelease].read) {
+            unreadReleases.push(listManga[indexManga].release[indexRelease]);
+          }
         }
+        unreadManga.release = unreadReleases;
+      }
+      if(unreadManga.release.length > 0) {
+        unreadMangas.push(unreadManga);
+      }
+      
+    }
+   
+    console.log("🚀 ~ file: manga.service.ts:59 ~ MangaService ~ filterByRead ~ listMangaFiltered:", unreadMangas)
 
-        if (isNew) {
-            listMangaFiltered.push(manga);
-        }
-        isNew = false;
-    });
-    return listMangaFiltered
+    return unreadMangas
 
-}
+  }
 
   updateChapterRead(mangaTitle: String, mangaChapter: String) {
     const mangaId = this.mangaList.findIndex((manga) => { if (manga.title == mangaTitle) { return true; } else { return false; } });

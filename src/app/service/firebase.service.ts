@@ -36,10 +36,10 @@ export class FirebaseService {
             return []
         }).then(async mangas => {
             console.log("MANGAS GET : ", mangas)
-            await Preferences.set({
-                key: 'mangas',
-                value: JSON.stringify(mangas)
-            });
+            // await Preferences.set({
+            //     key: 'mangas',
+            //     value: JSON.stringify(mangas)
+            // });
             this.mangaService.setMangaList(mangas);
             return mangas;
         });

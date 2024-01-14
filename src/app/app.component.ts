@@ -15,6 +15,7 @@ export class AppComponent {
     this.mangaService.setMangaList(data);
 
     const news = this.mangaService.filterByRead(data);
+    console.log("NEW REALEASE : ", news);
     this.mangaService.setMangaListNews(news);
   });
   }

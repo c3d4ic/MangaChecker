@@ -1,6 +1,35 @@
-.back-button {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    --background: var(--ion-color-primary);
+ion-content {
+
+    .back-button {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        --background: var(--ion-color-primary);
+    }
+
+    .top-button {
+        position: fixed;
+        --background: var(--ion-color-primary);
+        bottom: 16px;
+        right: 16px;
+    }
+
+    .page-container {
+
+        display: flex;
+        justify-content: center;
+
+        .page {
+            width: 100%;
+            padding: 2vw;
+        }
+    }
+
+
+    @media screen and (min-width: 600px) {
+        .page {
+            width: 65vw !important;
+            padding: 5vw;
+        }
+    }
 }
